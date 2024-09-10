@@ -1,2 +1,2 @@
 # BeastBound
--- Project for free basic programming course in Platzi
+Proyecto para el curso gratis de Programación Básica de Platzi
