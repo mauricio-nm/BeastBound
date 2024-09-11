@@ -7,6 +7,11 @@ let vidasEnemigo = 3
 
 function iniciarJuego(){
 
+    let sectionSeleccionarAtaque = document.getElementById('seleccionar-ataque')
+    sectionSeleccionarAtaque.style.display = 'none'
+    let sectionSeleccionarReinicio = document.getElementById('reiniciar')
+    sectionSeleccionarReinicio.style.display = 'none'
+
     let botonMascotaJugador = document.getElementById('boton-mascota')
     botonMascotaJugador.addEventListener('click', seleccionarMascotaJugador)
 
@@ -17,9 +22,17 @@ function iniciarJuego(){
     let botonViento = document.getElementById('boton-viento')
     botonViento.addEventListener('click', ataqueViento)
 
+    let botonReiniciar = document.getElementById('boton-reiniciar')
+    botonReiniciar.addEventListener('click', reiniciarJuego)
 }
 
 function seleccionarMascotaJugador() {
+    let sectionSeleccionarMascota = document.getElementById('seleccionar-mascota')
+    sectionSeleccionarMascota.style.display = 'none'
+
+    let sectionSeleccionarAtaque = document.getElementById('seleccionar-ataque')
+    sectionSeleccionarAtaque.style.display = 'block'
+
     let inputZorbat = document.getElementById('zorbat')
     let inputLuminaut = document.getElementById('luminaut')
     let inputDraconix = document.getElementById('draconix')
@@ -127,6 +140,21 @@ function crearMensajeFinal(resultadoFinal){
     let parrafo = document.createElement('p')
     parrafo.innerHTML = resultadoFinal
     sectionMensajes.appendChild(parrafo)
+
+    let botonOscuridad = document.getElementById('boton-oscuridad')
+    botonOscuridad.disabled = true
+    let botonLuz = document.getElementById('boton-luz')
+    botonLuz.disabled = true
+    let botonViento = document.getElementById('boton-viento')
+    botonViento.disabled = true
+
+    let sectionSeleccionarReinicio = document.getElementById('reiniciar')
+    sectionSeleccionarReinicio.style.display = 'block'
+
+}
+
+function reiniciarJuego(){
+    location.reload()
 }
 
 function aleatorio (min, max) {
