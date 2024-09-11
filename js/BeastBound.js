@@ -76,6 +76,20 @@ function ataqueAleatorioEnemigo(){
     crearMensaje()
 }
 
+function combate(){
+    if (ataqueEnemigo == ataqueJugador) {
+        alert("EMPATE")
+    } else if (ataqueJugador == 'OSCURIDAD' && ataqueEnemigo == 'VIENTO') {
+        alert("GANASTE")
+    } else if (ataqueJugador == 'LUZ' && ataqueEnemigo == 'OSCURIDAD') {
+        alert("GANASTE")
+    } else if (ataqueJugador == 'VIENTO' && ataqueEnemigo == 'LUZ') {
+        alert("GANASTE")
+    } else {
+        alert("PERDISTE")
+    }
+}
+
 function crearMensaje(){
     let sectionMensajes = document.getElementById('mensajes')
     let parrafo = document.createElement('p')
