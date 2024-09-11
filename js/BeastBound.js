@@ -1,6 +1,10 @@
 let ataqueJugador
 let ataqueEnemigo
 
+let vidasJugador = 3
+let vidasEnemigo = 3
+
+
 function iniciarJuego(){
 
     let botonMascotaJugador = document.getElementById('boton-mascota')
@@ -77,17 +81,29 @@ function ataqueAleatorioEnemigo(){
 }
 
 function combate(){
+
+    let spanVidasJugador = document.getElementById("vidas-jugador")
+    let spanVidasEnemigos = document.getElementById("vidas-enemigos")
     if (ataqueEnemigo == ataqueJugador) {
         crearMensaje("EMPATE")
     } else if (ataqueJugador == 'OSCURIDAD' && ataqueEnemigo == 'VIENTO') {
         crearMensaje("GANASTE")
+        vidasEnemigo--
+        spanVidasEnemigos.innerHTML = vidasEnemigo
     } else if (ataqueJugador == 'LUZ' && ataqueEnemigo == 'OSCURIDAD') {
         crearMensaje("GANASTE")
+        vidasEnemigo--
+        spanVidasEnemigos.innerHTML = vidasEnemigo
     } else if (ataqueJugador == 'VIENTO' && ataqueEnemigo == 'LUZ') {
         crearMensaje("GANASTE")
+        vidasEnemigo--
+        spanVidasEnemigos.innerHTML = vidasEnemigo
     } else {
         crearMensaje("PERDISTE")
+        vidasJugador--
+        spanVidasJugador.innerHTML = vidasJugador
     }
+
 }
 
 function crearMensaje(resultado){
