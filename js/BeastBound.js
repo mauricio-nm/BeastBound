@@ -73,27 +73,27 @@ function ataqueAleatorioEnemigo(){
         ataqueEnemigo = 'VIENTO'
     }
 
-    crearMensaje()
+    combate()
 }
 
 function combate(){
     if (ataqueEnemigo == ataqueJugador) {
-        alert("EMPATE")
+        crearMensaje("EMPATE")
     } else if (ataqueJugador == 'OSCURIDAD' && ataqueEnemigo == 'VIENTO') {
-        alert("GANASTE")
+        crearMensaje("GANASTE")
     } else if (ataqueJugador == 'LUZ' && ataqueEnemigo == 'OSCURIDAD') {
-        alert("GANASTE")
+        crearMensaje("GANASTE")
     } else if (ataqueJugador == 'VIENTO' && ataqueEnemigo == 'LUZ') {
-        alert("GANASTE")
+        crearMensaje("GANASTE")
     } else {
-        alert("PERDISTE")
+        crearMensaje("PERDISTE")
     }
 }
 
-function crearMensaje(){
+function crearMensaje(resultado){
     let sectionMensajes = document.getElementById('mensajes')
     let parrafo = document.createElement('p')
-    parrafo.innerHTML = 'Tu mascota atacó con ' + ataqueJugador + ' y la mascota del enemigo atacó con ' + ataqueEnemigo + ' = RESULTADO'
+    parrafo.innerHTML = 'Tu mascota atacó con ' + ataqueJugador + ' y la mascota del enemigo atacó con ' + ataqueEnemigo + ' = ' + resultado
     sectionMensajes.appendChild(parrafo)
 }
 
