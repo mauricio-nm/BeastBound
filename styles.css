@@ -1,3 +1,51 @@
-#titulo {
-    color:darkblue
+@import url('https://fonts.googleapis.com/css2?family=Unlock&display=swap');
+
+body{
+    font-family: "Unlock", serif;
+    background-color: #FFF0D1;
+}
+
+#seleccionar-mascota {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.titulo {
+    color: #3B3030;
+    font-size: 40px;
+}
+
+
+.subtitulo{
+    color: #664343;
+    font-size: 24px;
+}
+
+.tarjetas {
+    display: flex;
+    gap: 10px
+}
+
+.tarjeta-de-mokepon {
+    width: 172px;
+    height: 96px;
+    background: #795757;
+    padding: 10px;
+    box-sizing: border-box;
+    color: #FFF0D1;
+    font-size: 16px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tarjeta-de-mokepon img {
+    width: 80px;
+}
+
+input {
+    display: none;
 }

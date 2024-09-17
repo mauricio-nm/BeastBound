@@ -7,25 +7,38 @@
     <link rel="stylesheet" href="./styles.css">
   </head>
   <body>
-    <h1 id="titulo" >BEASTBOUND! 🌑☀️🍃</h1>
-
       <section id="seleccionar-mascota">
-          <h2>Elige tu mascota:</h2>
+        <h1 class="titulo" >Beastbound</h1>
 
-          <label for="zorbat">Zorbat</label>
-          <input type="radio" name = "mascota" id="zorbat"/>
+        <h2 class="subtitulo">Elige tu mascota:</h2>
 
-          <label for="luminaut">Luminaut</label>
-          <input type="radio" name = "mascota" id="luminaut">
+        <div class="tarjetas">
+            <label class="tarjeta-de-mokepon" for="zorbat">
+              <p>Zorbat</p>
+              <img src="./assets/zorbat.png" alt="Zorbat">
+            </label>
+            <input type="radio" name = "mascota" id="zorbat"/>
 
-          <label for="draconix">Draconix</label>
-          <input type="radio" name = "mascota" id="draconix"/>
+            <label class="tarjeta-de-mokepon" for="luminaut">
+              <p>Luminaut</p>
+              <img src="./assets/luminaut.png" alt="Luminaut">
+            </label>
+            <input type="radio" name = "mascota" id="luminaut">
 
-          <button id="boton-mascota">Seleccionar</button>
+            <label class="tarjeta-de-mokepon" for="draconix">
+              <p>Draconix</p>
+              <img src="./assets/draconix.png" alt="Draconix">
+            </label>
+            <input type="radio" name = "mascota" id="draconix"/>
+
+        </div>
+
+        <button id="boton-mascota">Seleccionar</button>
 
       </section>
 
       <section id="seleccionar-ataque">
+        <h1 class="titulo" >BEASTBOUND! 🌑☀️🍃</h1>
         <h2>Elige tu ataque:</h2>
 
         <p>Tu mascota <span id="mascota-jugador"></span> tiene <span id="vidas-jugador">3</span> vidas </p>
