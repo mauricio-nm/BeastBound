@@ -1,7 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Unlock&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300&family=Unlock&display=swap');
 
 body{
-    font-family: "Unlock", serif;
+    font-family: "Poppins", sans-serif;
     background-color: #FFF0D1;
 }
 
@@ -15,6 +15,7 @@ body{
 .titulo {
     color: #3B3030;
     font-size: 40px;
+    font-family: "Unlock", system-ui;
 }
 
 
@@ -46,6 +47,51 @@ body{
     width: 80px;
 }
 
+#boton-mascota {
+    width: 180px;
+    height: 40px;
+    border-radius: 20px;
+    background: transparent;
+    border: 2px solid #3B3030;
+    color: #3B3030;
+    font-family: "Poppins", sans-serif;
+    margin-top: 30px;
+}
+
 input {
     display: none;
+}
+
+#seleccionar-ataque {
+    flex-direction: column;
+    align-items: center;
+}
+
+.boton-de-ataque {
+    width: 107px;
+    height: 31px;
+    border-radius: 20px;
+    background-color: #795757;
+    border: 2px solid #3B3030;
+    color: #FFF0D1;
+    font-family: "Poppins", sans-serif;
+    margin-top: 30px;
+}
+
+#mensajes {
+    width: 180px;
+    background-color: #3B3030;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 20px;
+    color: #FFF0D1;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+#boton-reiniciar {
+    border: none;
+    color: #664343;
+    font-family: "Poppins", sans-serif;
 }
