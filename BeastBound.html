@@ -3,7 +3,6 @@
   <head>
     <meta charset="utf-8" />
     <title>BEASTBOUND!</title>
-    <script src="./js/BeastBound.js"></script>
     <link rel="stylesheet" href="./styles.css">
   </head>
   <body>
@@ -13,23 +12,23 @@
         <h2 class="subtitulo">Elige tu mascota:</h2>
 
         <div class="tarjetas">
-            <label class="tarjeta-de-mokepon" for="zorbat">
+          <input type="radio" name = "mascota" id="zorbat"/>
+          <label class="tarjeta-de-mokepon" for="zorbat">
               <p>Zorbat</p>
               <img src="./assets/zorbat.png" alt="Zorbat">
-            </label>
-            <input type="radio" name = "mascota" id="zorbat"/>
+          </label>
 
-            <label class="tarjeta-de-mokepon" for="luminaut">
+          <input type="radio" name = "mascota" id="luminaut">
+          <label class="tarjeta-de-mokepon" for="luminaut">
               <p>Luminaut</p>
               <img src="./assets/luminaut.png" alt="Luminaut">
-            </label>
-            <input type="radio" name = "mascota" id="luminaut">
+          </label>
 
-            <label class="tarjeta-de-mokepon" for="draconix">
+          <input type="radio" name = "mascota" id="draconix"/>
+          <label class="tarjeta-de-mokepon" for="draconix">
               <p>Draconix</p>
               <img src="./assets/draconix.png" alt="Draconix">
-            </label>
-            <input type="radio" name = "mascota" id="draconix"/>
+          </label>
 
         </div>
 
@@ -43,7 +42,7 @@
 
         <h2 class="subtitulo">Elige tu ataque:</h2>
 
-        <div>
+        <div class="tarjetas-ataques">
           <button id="boton-oscuridad" class="boton-de-ataque">Oscuridad 🌑</button>
           <button id="boton-luz" class="boton-de-ataque">Luz ☀️ </button>
           <button id="boton-viento" class="boton-de-ataque">Viento 🍃 </button>
@@ -59,14 +58,23 @@
           </div>
 
 
-        <div>
-          <div id="ataques-del-jugador"></div>
-          <div id="ataques-del-enemigo"></div>
-          <p>Tu mascota <span id="mascota-jugador"></span> tiene <span id="vidas-jugador">3</span> vidas </p>
-          <p>La mascota <span id="mascota-enemigo"></span> del enemigo tiene <span id="vidas-enemigos">3</span> vidas</p>
+        <div class="ataques">
+            <div class="ataques-jugador">
+              <p id="vidas-jugador">3</p>
+              <p id="mascota-jugador"></p>
+              <div id="ataques-del-jugador"></div>
+            </div>
+
+            <div class="ataques-enemigo">
+              <p id="vidas-enemigos">3</p>
+              <p id="mascota-enemigo"></p>
+              <div id="ataques-del-enemigo"></div>
+            </div>
+
         </div>
 
       </section>
 
     </body>
+    <script src="./js/BeastBound.js"></script>
 </html>

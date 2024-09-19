@@ -1,3 +1,26 @@
+const sectionSeleccionarAtaque = document.getElementById('seleccionar-ataque')
+const sectionSeleccionarReinicio = document.getElementById('reiniciar')
+const botonMascotaJugador = document.getElementById('boton-mascota')
+const botonOscuridad = document.getElementById('boton-oscuridad')
+const botonLuz = document.getElementById('boton-luz')
+const botonViento = document.getElementById('boton-viento')
+const botonReiniciar = document.getElementById('boton-reiniciar')
+
+const sectionSeleccionarMascota = document.getElementById('seleccionar-mascota')
+const inputZorbat = document.getElementById('zorbat')
+const inputLuminaut = document.getElementById('luminaut')
+const inputDraconix = document.getElementById('draconix')
+const spanMascotaJugador = document.getElementById('mascota-jugador')
+
+const spanMascotaEnemigo = document.getElementById('mascota-enemigo')
+
+const spanVidasJugador = document.getElementById("vidas-jugador")
+const spanVidasEnemigos = document.getElementById("vidas-enemigos")
+
+const sectionMensajes = document.getElementById('resultado')
+const ataquesDelJugador = document.getElementById('ataques-del-jugador')
+const ataquesDelEnemigo = document.getElementById('ataques-del-enemigo')
+
 let ataqueJugador
 let ataqueEnemigo
 
@@ -7,36 +30,23 @@ let vidasEnemigo = 3
 
 function iniciarJuego(){
 
-    let sectionSeleccionarAtaque = document.getElementById('seleccionar-ataque')
     sectionSeleccionarAtaque.style.display = 'none'
-    let sectionSeleccionarReinicio = document.getElementById('reiniciar')
     sectionSeleccionarReinicio.style.display = 'none'
 
-    let botonMascotaJugador = document.getElementById('boton-mascota')
     botonMascotaJugador.addEventListener('click', seleccionarMascotaJugador)
 
-    let botonOscuridad = document.getElementById('boton-oscuridad')
     botonOscuridad.addEventListener('click', ataqueOscuridad)
-    let botonLuz = document.getElementById('boton-luz')
     botonLuz.addEventListener('click', ataqueLuz)
-    let botonViento = document.getElementById('boton-viento')
     botonViento.addEventListener('click', ataqueViento)
 
-    let botonReiniciar = document.getElementById('boton-reiniciar')
     botonReiniciar.addEventListener('click', reiniciarJuego)
 }
 
 function seleccionarMascotaJugador() {
-    let sectionSeleccionarMascota = document.getElementById('seleccionar-mascota')
+
     sectionSeleccionarMascota.style.display = 'none'
 
-    let sectionSeleccionarAtaque = document.getElementById('seleccionar-ataque')
     sectionSeleccionarAtaque.style.display = 'flex'
-
-    let inputZorbat = document.getElementById('zorbat')
-    let inputLuminaut = document.getElementById('luminaut')
-    let inputDraconix = document.getElementById('draconix')
-    let spanMascotaJugador = document.getElementById('mascota-jugador')
 
     if( inputZorbat.checked ) {
         spanMascotaJugador.innerHTML = 'Zorbat'
@@ -53,7 +63,7 @@ function seleccionarMascotaJugador() {
 
 function seleccionarMascotaEnemigo(){
     let mascotaAleatoria = aleatorio(1,3)
-    let spanMascotaEnemigo = document.getElementById('mascota-enemigo')
+
 
     if (mascotaAleatoria == 1) {
         spanMascotaEnemigo.innerHTML = 'Zorbat'
@@ -95,8 +105,7 @@ function ataqueAleatorioEnemigo(){
 
 function combate(){
 
-    let spanVidasJugador = document.getElementById("vidas-jugador")
-    let spanVidasEnemigos = document.getElementById("vidas-enemigos")
+
     if (ataqueEnemigo == ataqueJugador) {
         crearMensaje("EMPATE")
     } else if (ataqueJugador == 'OSCURIDAD' && ataqueEnemigo == 'VIENTO') {
@@ -129,9 +138,6 @@ function revisarVidas(){
 }
 
 function crearMensaje(resultado){
-    let sectionMensajes = document.getElementById('resultado')
-    let ataquesDelJugador = document.getElementById('ataques-del-jugador')
-    let ataquesDelEnemigo = document.getElementById('ataques-del-enemigo')
 
     let notificacion = document.createElement('p')
     let nuevoAtaqueDelJugador = document.createElement('p')
@@ -146,18 +152,13 @@ function crearMensaje(resultado){
 }
 
 function crearMensajeFinal(resultadoFinal){
-    let sectionMensajes = document.getElementById('resultado')
 
     sectionMensajes.innerHTML = resultadoFinal
 
-    let botonOscuridad = document.getElementById('boton-oscuridad')
     botonOscuridad.disabled = true
-    let botonLuz = document.getElementById('boton-luz')
     botonLuz.disabled = true
-    let botonViento = document.getElementById('boton-viento')
     botonViento.disabled = true
 
-    let sectionSeleccionarReinicio = document.getElementById('reiniciar')
     sectionSeleccionarReinicio.style.display = 'block'
 
 }
