@@ -7,9 +7,6 @@ const botonViento = document.getElementById('boton-viento')
 const botonReiniciar = document.getElementById('boton-reiniciar')
 
 const sectionSeleccionarMascota = document.getElementById('seleccionar-mascota')
-const inputZorbat = document.getElementById('zorbat')
-const inputLuminaut = document.getElementById('luminaut')
-const inputDraconix = document.getElementById('draconix')
 const spanMascotaJugador = document.getElementById('mascota-jugador')
 
 const spanMascotaEnemigo = document.getElementById('mascota-enemigo')
@@ -20,17 +17,81 @@ const spanVidasEnemigos = document.getElementById("vidas-enemigos")
 const sectionMensajes = document.getElementById('resultado')
 const ataquesDelJugador = document.getElementById('ataques-del-jugador')
 const ataquesDelEnemigo = document.getElementById('ataques-del-enemigo')
+const contenedorTarjetas = document.getElementById('contenedorTarjetas')
 
+
+let beasts = []
 let ataqueJugador
 let ataqueEnemigo
-
+let opcionDeBeasts
+let inputZorbat
+let inputLuminaut
+let inputDraconix
 let vidasJugador = 3
 let vidasEnemigo = 3
+
+class Beast {
+    constructor(nombre, foto, vida) {
+        this.nombre = nombre
+        this.foto = foto
+        this.vida = vida
+        this.ataques = []
+    }
+}
+
+let zorbat = new Beast('Zorbat', './assets/zorbat.png', 3)
+
+let luminaut = new Beast('Luminaut', './assets/luminaut.png', 3)
+
+let draconix = new Beast('Draconix', './assets/draconix.png', 3)
+
+
+zorbat.ataques.push(
+    { nombre: 'Oscuridad 🌑', id: 'boton-oscuridad' },
+    { nombre: 'Oscuridad 🌑', id: 'boton-oscuridad' },
+    { nombre: 'Oscuridad 🌑', id: 'boton-oscuridad' },
+    { nombre: 'Luz ☀️', id: 'boton-luz' },
+    { nombre: 'Viento 🍃', id: 'boton-viento' },
+)
+
+luminaut.ataques.push(
+    { nombre: 'Luz ☀️', id: 'boton-luz' },
+    { nombre: 'Luz ☀️', id: 'boton-luz' },
+    { nombre: 'Luz ☀️', id: 'boton-luz' },
+    { nombre: 'Oscuridad 🌑', id: 'boton-oscuridad' },
+    { nombre: 'Viento 🍃', id: 'boton-viento' },
+)
+
+draconix.ataques.push(
+    { nombre: 'Viento 🍃', id: 'boton-viento' },
+    { nombre: 'Viento 🍃', id: 'boton-viento' },
+    { nombre: 'Viento 🍃', id: 'boton-viento' },
+    { nombre: 'Oscuridad 🌑', id: 'boton-oscuridad' },
+    { nombre: 'Luz ☀️', id: 'boton-luz' },
+)
+
+beasts.push(zorbat,luminaut,draconix)
 
 
 function iniciarJuego(){
 
     sectionSeleccionarAtaque.style.display = 'none'
+
+    beasts.forEach((beast) => {
+        opcionDeBeasts = `
+            <input type="radio" name = "mascota" id=${beast.nombre} />
+            <label class="tarjeta-de-beast" for=${beast.nombre}>
+                <p>${beast.nombre}</p>
+                <img src="${beast.foto}" alt=${beast.nombre}>
+            </label>
+        `
+        contenedorTarjetas.innerHTML += opcionDeBeasts
+
+        inputZorbat = document.getElementById('Zorbat')
+        inputLuminaut = document.getElementById('Luminaut')
+        inputDraconix = document.getElementById('Draconix')
+    })
+
     sectionSeleccionarReinicio.style.display = 'none'
 
     botonMascotaJugador.addEventListener('click', seleccionarMascotaJugador)

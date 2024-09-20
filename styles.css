@@ -29,7 +29,7 @@ body{
     gap: 10px
 }
 
-.tarjeta-de-mokepon {
+.tarjeta-de-beast {
     width: 172px;
     height: 96px;
     background: #795757;
@@ -43,7 +43,7 @@ body{
     align-items: center;
 }
 
-.tarjeta-de-mokepon img {
+.tarjeta-de-beast img {
     width: 80px;
 }
 
