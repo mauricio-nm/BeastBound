@@ -1,9 +1,6 @@
 const sectionSeleccionarAtaque = document.getElementById('seleccionar-ataque')
 const sectionSeleccionarReinicio = document.getElementById('reiniciar')
 const botonMascotaJugador = document.getElementById('boton-mascota')
-const botonOscuridad = document.getElementById('boton-oscuridad')
-const botonLuz = document.getElementById('boton-luz')
-const botonViento = document.getElementById('boton-viento')
 const botonReiniciar = document.getElementById('boton-reiniciar')
 
 const sectionSeleccionarMascota = document.getElementById('seleccionar-mascota')
@@ -18,15 +15,22 @@ const sectionMensajes = document.getElementById('resultado')
 const ataquesDelJugador = document.getElementById('ataques-del-jugador')
 const ataquesDelEnemigo = document.getElementById('ataques-del-enemigo')
 const contenedorTarjetas = document.getElementById('contenedorTarjetas')
-
+const contenedorAtaques = document.getElementById('contenedorAtaques')
 
 let beasts = []
-let ataqueJugador
-let ataqueEnemigo
+let ataqueJugador = []
+let ataqueEnemigo = []
 let opcionDeBeasts
 let inputZorbat
 let inputLuminaut
 let inputDraconix
+let mascotaJugador
+let ataquesBeast
+let ataquesBeastEnemigo
+let botonOscuridad
+let botonLuz
+let botonViento
+let botones = []
 let vidasJugador = 3
 let vidasEnemigo = 3
 
@@ -96,10 +100,6 @@ function iniciarJuego(){
 
     botonMascotaJugador.addEventListener('click', seleccionarMascotaJugador)
 
-    botonOscuridad.addEventListener('click', ataqueOscuridad)
-    botonLuz.addEventListener('click', ataqueLuz)
-    botonViento.addEventListener('click', ataqueViento)
-
     botonReiniciar.addEventListener('click', reiniciarJuego)
 }
 
@@ -110,57 +110,92 @@ function seleccionarMascotaJugador() {
     sectionSeleccionarAtaque.style.display = 'flex'
 
     if( inputZorbat.checked ) {
-        spanMascotaJugador.innerHTML = 'Zorbat'
+        spanMascotaJugador.innerHTML = inputZorbat.id
+        mascotaJugador = inputZorbat.id
     } else if ( inputLuminaut.checked) {
-        spanMascotaJugador.innerHTML = 'Luminaut'
+        spanMascotaJugador.innerHTML = inputLuminaut.id
+        mascotaJugador = inputLuminaut.id
     } else if ( inputDraconix.checked) {
-        spanMascotaJugador.innerHTML = 'Draconix'
+        spanMascotaJugador.innerHTML = inputDraconix.id
+        mascotaJugador = inputDraconix.id
     } else {
         alert('Selecciona una mascota')
     }
 
+    extraerAtaques(mascotaJugador)
     seleccionarMascotaEnemigo()
 }
 
-function seleccionarMascotaEnemigo(){
-    let mascotaAleatoria = aleatorio(1,3)
+function extraerAtaques(mascotaJugador) {
+    let ataques
 
-
-    if (mascotaAleatoria == 1) {
-        spanMascotaEnemigo.innerHTML = 'Zorbat'
-    } else if (mascotaAleatoria == 2) {
-        spanMascotaEnemigo.innerHTML = 'Luminaut'
-    } else if (mascotaAleatoria == 3) {
-        spanMascotaEnemigo.innerHTML = 'Draconix'
+    for (let i = 0; i < beasts.length; i++) {
+        if (mascotaJugador === beasts[i].nombre) {
+            ataques = beasts[i].ataques
+        }
     }
+
+    mostrarAtaques(ataques)
 }
 
-function ataqueOscuridad() {
-    ataqueJugador = 'OSCURIDAD'
-    ataqueAleatorioEnemigo()
+function mostrarAtaques(ataques) {
+
+    ataques.forEach((ataque) => {
+        ataquesBeast = `<button id=${ataque.id} class="boton-de-ataque BAtaque">${ataque.nombre}</button>`
+
+        contenedorAtaques.innerHTML += ataquesBeast
+    })
+
+    let botonOscuridad = document.getElementById('boton-oscuridad')
+    let botonLuz = document.getElementById('boton-luz')
+    let botonViento = document.getElementById('boton-viento')
+    botones = document.querySelectorAll('.BAtaque')
+
 }
 
-function ataqueLuz() {
-    ataqueJugador = 'LUZ'
-    ataqueAleatorioEnemigo()
+function secuenciaAtaque(){
+    botones.forEach((boton)=> {
+        boton.addEventListener('click', (e) => {
+            if (e.target.textContent === 'Oscuridad 🌑') {
+                ataqueJugador.push('Oscuridad 🌑')
+                console.log(ataqueJugador)
+                boton.style.background = '#3B3030'
+            } else if (e.target.textContent === 'Luz ☀️') {
+                ataqueJugador.push('Luz ☀️')
+                console.log(ataqueJugador)
+                boton.style.background = '#3B3030'
+            } else if (e.target.textContent === 'Viento 🍃') {
+                ataqueJugador.push('Viento 🍃')
+                console.log(ataqueJugador)
+                boton.style.background = '#3B3030'
+            }
+            ataqueAleatorioEnemigo()
+        })
+    })
+    
 }
 
-function ataqueViento() {
-    ataqueJugador = 'VIENTO'
-    ataqueAleatorioEnemigo()
+function seleccionarMascotaEnemigo(){
+    let mascotaAleatoria = aleatorio(0, beasts.length-1)
+
+    spanMascotaEnemigo.innerHTML = beasts[mascotaAleatoria].nombre
+    ataquesBeastEnemigo = beasts[mascotaAleatoria].ataques
+
+    secuenciaAtaque()
+
 }
 
 function ataqueAleatorioEnemigo(){
-    let ataqueAleatorio = aleatorio(1,3)
+    let ataqueAleatorio = aleatorio(0,ataquesBeastEnemigo.length-1)
 
-    if(ataqueAleatorio == 1){
-        ataqueEnemigo = 'OSCURIDAD'
-    } else if (ataqueAleatorio == 2) {
-        ataqueEnemigo = 'LUZ'
+    if(ataqueAleatorio == 0 || ataqueAleatorio == 1){
+        ataqueEnemigo.push('OSCURIDAD')
+    } else if (ataqueAleatorio == 3 || ataqueAleatorio == 4) {
+        ataqueEnemigo.push('LUZ')
     } else {
-        ataqueEnemigo = 'VIENTO'
+        ataqueEnemigo.push('VIENTO')
     }
-
+    console.log(ataqueEnemigo)
     combate()
 }
 
@@ -216,9 +251,9 @@ function crearMensajeFinal(resultadoFinal){
 
     sectionMensajes.innerHTML = resultadoFinal
 
-    botonOscuridad.disabled = true
-    botonLuz.disabled = true
-    botonViento.disabled = true
+    // botonOscuridad.disabled = true
+    // botonLuz.disabled = true
+    // botonViento.disabled = true
 
     sectionSeleccionarReinicio.style.display = 'block'
 
