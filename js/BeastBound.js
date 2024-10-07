@@ -2,14 +2,15 @@ const sectionSeleccionarAtaque = document.getElementById('seleccionar-ataque')
 const sectionSeleccionarReinicio = document.getElementById('reiniciar')
 const botonMascotaJugador = document.getElementById('boton-mascota')
 const botonReiniciar = document.getElementById('boton-reiniciar')
+sectionSeleccionarReinicio.style.display = 'none'
 
 const sectionSeleccionarMascota = document.getElementById('seleccionar-mascota')
 const spanMascotaJugador = document.getElementById('mascota-jugador')
 
 const spanMascotaEnemigo = document.getElementById('mascota-enemigo')
 
-const spanVidasJugador = document.getElementById("vidas-jugador")
-const spanVidasEnemigos = document.getElementById("vidas-enemigos")
+const spanVictoriasJugador = document.getElementById("victorias-jugador")
+const spanVictoriasEnemigos = document.getElementById("victorias-enemigos")
 
 const sectionMensajes = document.getElementById('resultado')
 const ataquesDelJugador = document.getElementById('ataques-del-jugador')
@@ -24,36 +25,53 @@ let opcionDeBeasts
 let inputZorbat
 let inputLuminaut
 let inputDraconix
+let inputBosstiff
+let inputZoidon
+let inputLionex
 let mascotaJugador
 let ataquesBeast
 let ataquesBeastEnemigo
-let botonOscuridad
+let botonTinieblas
 let botonLuz
 let botonViento
+let botonTierra
+let botonArtificial
+let botonFuego
 let botones = []
+let indexAtaqueJugador
+let indexAtaqueEnemigo
+let victoriasJugador = 0
+let victoriasEnemigo = 0
 let vidasJugador = 3
 let vidasEnemigo = 3
 
 class Beast {
-    constructor(nombre, foto, vida) {
+    constructor(nombre, foto, vida, tipo) {
         this.nombre = nombre
         this.foto = foto
         this.vida = vida
+        this.tipo = tipo
         this.ataques = []
     }
 }
 
-let zorbat = new Beast('Zorbat', './assets/zorbat.png', 3)
+let zorbat = new Beast('Zorbat', './assets/zorbat.png', 5, 'Oscuridad')
 
-let luminaut = new Beast('Luminaut', './assets/luminaut.png', 3)
+let luminaut = new Beast('Luminaut', './assets/luminaut.png', 5, 'Luz')
 
-let draconix = new Beast('Draconix', './assets/draconix.png', 3)
+let draconix = new Beast('Draconix', './assets/draconix.png', 5, 'Viento')
+
+let bosstiff = new Beast('Bosstiff', './assets/bosstiff.png', 5, 'Tierra')
+
+let zoidon = new Beast('Zoidon', './assets/zoidon.png', 5, 'Artificial')
+
+let lionex = new Beast('Lionex', './assets/lionex.png', 5, 'Fuego')
 
 
 zorbat.ataques.push(
-    { nombre: 'Oscuridad 🌑', id: 'boton-oscuridad' },
-    { nombre: 'Oscuridad 🌑', id: 'boton-oscuridad' },
-    { nombre: 'Oscuridad 🌑', id: 'boton-oscuridad' },
+    { nombre: 'Tinieblas 🌑', id: 'boton-tinieblas' },
+    { nombre: 'Tinieblas 🌑', id: 'boton-tinieblas' },
+    { nombre: 'Tinieblas 🌑', id: 'boton-tinieblas' },
     { nombre: 'Luz ☀️', id: 'boton-luz' },
     { nombre: 'Viento 🍃', id: 'boton-viento' },
 )
@@ -62,7 +80,7 @@ luminaut.ataques.push(
     { nombre: 'Luz ☀️', id: 'boton-luz' },
     { nombre: 'Luz ☀️', id: 'boton-luz' },
     { nombre: 'Luz ☀️', id: 'boton-luz' },
-    { nombre: 'Oscuridad 🌑', id: 'boton-oscuridad' },
+    { nombre: 'Tinieblas 🌑', id: 'boton-tinieblas' },
     { nombre: 'Viento 🍃', id: 'boton-viento' },
 )
 
@@ -70,11 +88,36 @@ draconix.ataques.push(
     { nombre: 'Viento 🍃', id: 'boton-viento' },
     { nombre: 'Viento 🍃', id: 'boton-viento' },
     { nombre: 'Viento 🍃', id: 'boton-viento' },
-    { nombre: 'Oscuridad 🌑', id: 'boton-oscuridad' },
+    { nombre: 'Tinieblas 🌑', id: 'boton-tinieblas' },
     { nombre: 'Luz ☀️', id: 'boton-luz' },
 )
 
-beasts.push(zorbat,luminaut,draconix)
+bosstiff.ataques.push(
+    { nombre: 'Tierra 🪨', id: 'boton-tierra' },
+    { nombre: 'Tierra 🪨', id: 'boton-tierra' },
+    { nombre: 'Tierra 🪨', id: 'boton-tierra' },
+    { nombre: 'Viento 🍃', id: 'boton-viento' },
+    { nombre: 'Tinieblas 🌑', id: 'boton-tinieblas' }
+)
+
+zoidon.ataques.push(
+    { nombre: 'Artificial 🤖', id: 'boton-artificial' },
+    { nombre: 'Artificial 🤖', id: 'boton-artificial' },
+    { nombre: 'Artificial 🤖', id: 'boton-artificial' },
+    { nombre: 'Luz ☀️', id: 'boton-luz' },
+    { nombre: 'Tinieblas 🌑', id: 'boton-tinieblas' }
+)
+
+lionex.ataques.push(
+    { nombre: 'Fuego 🔥', id: 'boton-fuego' },
+    { nombre: 'Fuego 🔥', id: 'boton-fuego' },
+    { nombre: 'Fuego 🔥', id: 'boton-fuego' },
+    { nombre: 'Viento 🍃', id: 'boton-viento' },
+    { nombre: 'Luz ☀️', id: 'boton-luz' }
+)
+
+
+beasts.push(zorbat,luminaut,draconix,bosstiff,lionex,zoidon)
 
 
 function iniciarJuego(){
@@ -94,9 +137,13 @@ function iniciarJuego(){
         inputZorbat = document.getElementById('Zorbat')
         inputLuminaut = document.getElementById('Luminaut')
         inputDraconix = document.getElementById('Draconix')
+        inputBosstiff = document.getElementById ('Bosstiff')
+        inputZoidon = document.getElementById ('Zoidon')
+        inputLionex = document.getElementById ('Lionex')
+
     })
 
-    sectionSeleccionarReinicio.style.display = 'none'
+
 
     botonMascotaJugador.addEventListener('click', seleccionarMascotaJugador)
 
@@ -118,7 +165,16 @@ function seleccionarMascotaJugador() {
     } else if ( inputDraconix.checked) {
         spanMascotaJugador.innerHTML = inputDraconix.id
         mascotaJugador = inputDraconix.id
-    } else {
+    } else if (inputBosstiff.checked) {
+        spanMascotaJugador.innerHTML = inputBosstiff.id
+        mascotaJugador = inputBosstiff.id
+    } else if (inputLionex.checked) {
+        spanMascotaJugador.innerHTML = inputLionex.id
+        mascotaJugador = inputLionex.id
+    } else if (inputZoidon.checked) {
+        spanMascotaJugador.innerHTML = inputZoidon.id
+        mascotaJugador = inputZoidon.id
+    } else{
         alert('Selecciona una mascota')
     }
 
@@ -141,14 +197,19 @@ function extraerAtaques(mascotaJugador) {
 function mostrarAtaques(ataques) {
 
     ataques.forEach((ataque) => {
-        ataquesBeast = `<button id=${ataque.id} class="boton-de-ataque BAtaque">${ataque.nombre}</button>`
+        ataquesBeast = `
+        <button id=${ataque.id} class="boton-de-ataque BAtaque">${ataque.nombre}</button>
+        `
 
         contenedorAtaques.innerHTML += ataquesBeast
     })
 
-    let botonOscuridad = document.getElementById('boton-oscuridad')
-    let botonLuz = document.getElementById('boton-luz')
-    let botonViento = document.getElementById('boton-viento')
+    botonTinieblas= document.getElementById('boton-tinieblas')
+    botonLuz = document.getElementById('boton-luz')
+    botonViento = document.getElementById('boton-viento')
+    botonTierra = document.getElementById('boton-tierra')
+    botonArtificial = document.getElementById('boton-artificial')
+    botonFuego = document.getElementById('boton-fuego')
     botones = document.querySelectorAll('.BAtaque')
 
 }
@@ -156,23 +217,41 @@ function mostrarAtaques(ataques) {
 function secuenciaAtaque(){
     botones.forEach((boton)=> {
         boton.addEventListener('click', (e) => {
-            if (e.target.textContent === 'Oscuridad 🌑') {
-                ataqueJugador.push('Oscuridad 🌑')
+            if (e.target.textContent === 'Tinieblas 🌑') {
+                ataqueJugador.push('Tinieblas 🌑')
                 console.log(ataqueJugador)
                 boton.style.background = '#3B3030'
+                boton.disabled = true
             } else if (e.target.textContent === 'Luz ☀️') {
                 ataqueJugador.push('Luz ☀️')
                 console.log(ataqueJugador)
                 boton.style.background = '#3B3030'
+                boton.disabled = true
             } else if (e.target.textContent === 'Viento 🍃') {
                 ataqueJugador.push('Viento 🍃')
                 console.log(ataqueJugador)
                 boton.style.background = '#3B3030'
+                boton.disabled = true
+            } else if (e.target.textContent === 'Tierra 🪨') {
+                ataqueJugador.push('Tierra 🪨')
+                console.log(ataqueJugador)
+                boton.style.background = '#3B3030'
+                boton.disabled = true
+            } else if (e.target.textContent === 'Artificial 🤖') {
+                ataqueJugador.push('Artificial 🤖')
+                console.log(ataqueJugador)
+                boton.style.background = '#3B3030'
+                boton.disabled = true
+            } else if (e.target.textContent === 'Fuego 🔥') {
+                ataqueJugador.push('Fuego 🔥')
+                console.log(ataqueJugador)
+                boton.style.background = '#3B3030'
+                boton.disabled = true
             }
             ataqueAleatorioEnemigo()
         })
     })
-    
+
 }
 
 function seleccionarMascotaEnemigo(){
@@ -185,63 +264,101 @@ function seleccionarMascotaEnemigo(){
 
 }
 
-function ataqueAleatorioEnemigo(){
-    let ataqueAleatorio = aleatorio(0,ataquesBeastEnemigo.length-1)
+function ataqueAleatorioEnemigo() {
+    let ataqueAleatorio = aleatorio(0, ataquesBeastEnemigo.length - 1);
+    let ataqueSeleccionado = ataquesBeastEnemigo[ataqueAleatorio].nombre;
 
-    if(ataqueAleatorio == 0 || ataqueAleatorio == 1){
-        ataqueEnemigo.push('OSCURIDAD')
-    } else if (ataqueAleatorio == 3 || ataqueAleatorio == 4) {
-        ataqueEnemigo.push('LUZ')
-    } else {
-        ataqueEnemigo.push('VIENTO')
-    }
-    console.log(ataqueEnemigo)
-    combate()
+    ataqueEnemigo.push(ataqueSeleccionado);
+    console.log(ataqueEnemigo);
+    iniciarPelea();
 }
 
-function combate(){
 
-
-    if (ataqueEnemigo == ataqueJugador) {
-        crearMensaje("EMPATE")
-    } else if (ataqueJugador == 'OSCURIDAD' && ataqueEnemigo == 'VIENTO') {
-        crearMensaje("GANASTE")
-        vidasEnemigo--
-        spanVidasEnemigos.innerHTML = vidasEnemigo
-    } else if (ataqueJugador == 'LUZ' && ataqueEnemigo == 'OSCURIDAD') {
-        crearMensaje("GANASTE")
-        vidasEnemigo--
-        spanVidasEnemigos.innerHTML = vidasEnemigo
-    } else if (ataqueJugador == 'VIENTO' && ataqueEnemigo == 'LUZ') {
-        crearMensaje("GANASTE")
-        vidasEnemigo--
-        spanVidasEnemigos.innerHTML = vidasEnemigo
-    } else {
-        crearMensaje("PERDISTE")
-        vidasJugador--
-        spanVidasJugador.innerHTML = vidasJugador
-    }
-
-    revisarVidas()
+function iniciarPelea(){
+    if (ataqueJugador.length === 5)
+        combate()
 }
 
-function revisarVidas(){
-    if(vidasEnemigo==0){
-        crearMensajeFinal('FELICITACIONES! Ganaste :D')
-    } else if (vidasJugador == 0) {
-        crearMensajeFinal('LO SIENTO, PERDISTE :(')
+function indexAmbosOponentes(jugador, enemigo){
+    indexAtaqueJugador = ataqueJugador[jugador]
+    indexAtaqueEnemigo = ataqueEnemigo[enemigo]
+}
+
+function combate() {
+    for (let index = 0; index < ataqueJugador.length; index++) {
+        // Comparar ataques del jugador y del enemigo
+        if (ataqueJugador[index] === ataqueEnemigo[index]) {
+            indexAmbosOponentes(index, index);  // Index para mostrar ambos ataques en los mensajes
+            crearMensaje("EMPATE");
+        }
+        // Lógica de comparación según tipo de ataque
+        else if (ataqueJugador[index] === 'Tinieblas 🌑' && (ataqueEnemigo[index] === 'Viento 🍃' || ataqueEnemigo[index] === 'Luz ☀️')) {
+            indexAmbosOponentes(index, index);
+            crearMensaje("GANASTE");
+            victoriasJugador++;
+            spanVictoriasJugador.innerHTML = victoriasJugador;
+        }
+        else if (ataqueJugador[index] === 'Luz ☀️' && (ataqueEnemigo[index] === 'Tinieblas 🌑' || ataqueEnemigo[index] === 'Artificial 🤖')) {
+            indexAmbosOponentes(index, index);
+            crearMensaje("GANASTE");
+            victoriasJugador++;
+            spanVictoriasJugador.innerHTML = victoriasJugador;
+        }
+        else if (ataqueJugador[index] === 'Viento 🍃' && (ataqueEnemigo[index] === 'Luz ☀️' || ataqueEnemigo[index] === 'Tierra 🪨')) {
+            indexAmbosOponentes(index, index);
+            crearMensaje("GANASTE");
+            victoriasJugador++;
+            spanVictoriasJugador.innerHTML = victoriasJugador;
+        }
+        else if (ataqueJugador[index] === 'Tierra 🪨' && (ataqueEnemigo[index] === 'Artificial 🤖' || ataqueEnemigo[index] === 'Fuego 🔥')) {
+            indexAmbosOponentes(index, index);
+            crearMensaje("GANASTE");
+            victoriasJugador++;
+            spanVictoriasJugador.innerHTML = victoriasJugador;
+        }
+        else if (ataqueJugador[index] === 'Artificial 🤖' && (ataqueEnemigo[index] === 'Tinieblas 🌑' || ataqueEnemigo[index] === 'Fuego 🔥')) {
+            indexAmbosOponentes(index, index);
+            crearMensaje("GANASTE");
+            victoriasJugador++;
+            spanVictoriasJugador.innerHTML = victoriasJugador;
+        }
+        else if (ataqueJugador[index] === 'Fuego 🔥' && (ataqueEnemigo[index] === 'Viento 🍃' || ataqueEnemigo[index] === 'Tinieblas 🌑')) {
+            indexAmbosOponentes(index, index);
+            crearMensaje("GANASTE");
+            victoriasJugador++;
+            spanVictoriasJugador.innerHTML = victoriasJugador;
+        }
+        else {
+            indexAmbosOponentes(index, index);
+            crearMensaje("PERDISTE");
+            victoriasEnemigo++;
+            spanVictoriasEnemigos.innerHTML = victoriasEnemigo;
+        }
+    }
+    revisarVictorias();
+}
+
+
+
+function revisarVictorias(){
+    if(victoriasJugador === victoriasEnemigo){
+        crearMensajeFinal('¡Esto fue un empate!')
+    } else if (victoriasJugador > victoriasEnemigo) {
+        crearMensajeFinal('¡FELICITACIONES, GANASTE!')
+    } else {
+        crearMensajeFinal('¡Lo lamento, perdiste!')
     }
 }
 
 function crearMensaje(resultado){
 
-    let notificacion = document.createElement('p')
+
     let nuevoAtaqueDelJugador = document.createElement('p')
     let nuevoAtaqueDelEnemigo = document.createElement('p')
 
     sectionMensajes.innerHTML = resultado
-    nuevoAtaqueDelJugador.innerHTML = ataqueJugador
-    nuevoAtaqueDelEnemigo.innerHTML = ataqueEnemigo
+    nuevoAtaqueDelJugador.innerHTML = indexAtaqueJugador
+    nuevoAtaqueDelEnemigo.innerHTML = indexAtaqueEnemigo
 
     ataquesDelJugador.appendChild(nuevoAtaqueDelJugador)
     ataquesDelEnemigo.appendChild(nuevoAtaqueDelEnemigo)
@@ -250,10 +367,6 @@ function crearMensaje(resultado){
 function crearMensajeFinal(resultadoFinal){
 
     sectionMensajes.innerHTML = resultadoFinal
-
-    // botonOscuridad.disabled = true
-    // botonLuz.disabled = true
-    // botonViento.disabled = true
 
     sectionSeleccionarReinicio.style.display = 'block'
 

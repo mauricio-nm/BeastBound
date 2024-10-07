@@ -67,6 +67,7 @@ input:checked + label {
 }
 
 #seleccionar-ataque {
+    display: flex;
     flex-direction: column;
     align-items: center;
 }
@@ -83,7 +84,7 @@ input:checked + label {
 }
 
 #mensajes {
-    width: 180px;
+    width: 210px;
     background-color: #3B3030;
     padding: 20px;
     margin-top: 20px;
@@ -106,7 +107,15 @@ input:checked + label {
 .ataques {
     display: grid;
     grid-template-columns: 100px 100px;
+    
 }
+
+#victorias-jugador, #victorias-enemigos {
+    font-size: 32px;
+    margin-bottom: 0;
+}
+
+
 
 .ataques-jugador, .ataques-enemigo {
     display: flex;
@@ -114,7 +123,7 @@ input:checked + label {
     align-items: center;
 }
 
-@media (max-width: 360px) {
+@media (max-width: 540px) {
     .tarjetas {
         flex-direction: column;
     }
