@@ -123,7 +123,7 @@ input:checked + label {
     align-items: center;
 }
 
-@media (max-width: 540px) {
+@media (max-width: 1090px) {
     .tarjetas {
         flex-direction: column;
     }
