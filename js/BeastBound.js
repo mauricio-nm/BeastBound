@@ -18,6 +18,9 @@ const ataquesDelEnemigo = document.getElementById('ataques-del-enemigo')
 const contenedorTarjetas = document.getElementById('contenedorTarjetas')
 const contenedorAtaques = document.getElementById('contenedorAtaques')
 
+const sectionVerMapa = document.getElementById('ver-mapa')
+const mapa = document.getElementById('mapa')
+
 let beasts = []
 let ataqueJugador = []
 let ataqueEnemigo = []
@@ -29,6 +32,7 @@ let inputBosstiff
 let inputZoidon
 let inputLionex
 let mascotaJugador
+let mascotaJugadorObjeto
 let ataquesBeast
 let ataquesBeastEnemigo
 let botonTinieblas
@@ -44,6 +48,10 @@ let victoriasJugador = 0
 let victoriasEnemigo = 0
 let vidasJugador = 3
 let vidasEnemigo = 3
+let lienzo = mapa.getContext("2d")
+let intervalo
+let mapaBackground = new Image()
+mapaBackground.src = './assets/beastMap.png'
 
 class Beast {
     constructor(nombre, foto, vida, tipo) {
@@ -52,6 +60,14 @@ class Beast {
         this.vida = vida
         this.tipo = tipo
         this.ataques = []
+        this.x = 20
+        this.y = 30
+        this.ancho = 80
+        this.alto = 80
+        this.mapaFoto = new Image()
+        this.mapaFoto.src = foto
+        this.velocidadX = 0
+        this.velocidadY = 0
     }
 }
 
@@ -123,6 +139,7 @@ beasts.push(zorbat,luminaut,draconix,bosstiff,lionex,zoidon)
 function iniciarJuego(){
 
     sectionSeleccionarAtaque.style.display = 'none'
+    sectionVerMapa.style.display = 'none'
 
     beasts.forEach((beast) => {
         opcionDeBeasts = `
@@ -154,7 +171,10 @@ function seleccionarMascotaJugador() {
 
     sectionSeleccionarMascota.style.display = 'none'
 
-    sectionSeleccionarAtaque.style.display = 'flex'
+    //sectionSeleccionarAtaque.style.display = 'flex'
+
+
+
 
     if( inputZorbat.checked ) {
         spanMascotaJugador.innerHTML = inputZorbat.id
@@ -179,6 +199,11 @@ function seleccionarMascotaJugador() {
     }
 
     extraerAtaques(mascotaJugador)
+
+    sectionVerMapa.style.display = 'flex'
+
+    iniciarMapa()
+
     seleccionarMascotaEnemigo()
 }
 
@@ -378,6 +403,93 @@ function reiniciarJuego(){
 
 function aleatorio (min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min)
+}
+
+function pintarCanvas() {
+    mascotaJugadorObjeto.x = mascotaJugadorObjeto.x + mascotaJugadorObjeto.velocidadX
+    mascotaJugadorObjeto.y = mascotaJugadorObjeto.y + mascotaJugadorObjeto.velocidadY
+    lienzo.clearRect(0, 0, mapa.width, mapa.height)
+    lienzo.drawImage(
+        mapaBackground,
+        0,
+        0,
+        mapa.width,
+        mapa.height
+
+    )
+    lienzo.drawImage(
+        mascotaJugadorObjeto.mapaFoto,
+        mascotaJugadorObjeto.x,
+        mascotaJugadorObjeto.y,
+        mascotaJugadorObjeto.ancho,
+        mascotaJugadorObjeto.alto,
+    )
+}
+
+function moverDerecha() {
+    mascotaJugadorObjeto.velocidadX = 5
+}
+
+function moverIzquierda() {
+    mascotaJugadorObjeto.velocidadX = -5
+
+}
+
+function moverAbajo() {
+    mascotaJugadorObjeto.velocidadY = 5
+}
+
+function moverArriba() {
+    mascotaJugadorObjeto.velocidadY = -5
+}
+
+function detenerMovimiento() {
+
+    mascotaJugadorObjeto.velocidadX = 0
+    mascotaJugadorObjeto.velocidadY = 0
+}
+
+function sePresionoUnaTecla(event){
+    switch (event.key) {
+        case 'ArrowUp':
+            moverArriba()
+            break
+        case 'ArrowDown':
+            moverAbajo()
+            break
+        case 'ArrowLeft':
+            moverIzquierda()
+            break
+        case 'ArrowRight':
+            moverDerecha()
+            break
+        default:
+            break
+    }
+}
+
+function iniciarMapa() {
+
+    mapa.width = 320
+    mapa.height = 240
+
+    mascotaJugadorObjeto = obtenerObjetoBeast(mascotaJugador)
+
+    intervalo = setInterval(pintarCanvas, 50)
+
+    window.addEventListener('keydown', sePresionoUnaTecla)
+
+    window.addEventListener('keyup', detenerMovimiento)
+}
+
+function obtenerObjetoBeast() {
+
+    for (let i = 0; i < beasts.length; i++) {
+        if (mascotaJugador === beasts[i].nombre) {
+            return beasts[i]
+        }
+    }
+
 }
 
 window.addEventListener('load', iniciarJuego)
