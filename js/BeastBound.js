@@ -54,34 +54,58 @@ let mapaBackground = new Image()
 mapaBackground.src = './assets/beastMap.png'
 
 class Beast {
-    constructor(nombre, foto, vida, tipo) {
+    constructor(nombre, foto, vida, tipo,fotoMapa, x = 0, y = 0 ) {
         this.nombre = nombre
         this.foto = foto
         this.vida = vida
         this.tipo = tipo
         this.ataques = []
-        this.x = 20
-        this.y = 30
-        this.ancho = 80
-        this.alto = 80
+        this.x = x
+        this.y = y
+        this.ancho = 60
+        this.alto = 60
         this.mapaFoto = new Image()
-        this.mapaFoto.src = foto
+        this.mapaFoto.src = fotoMapa
         this.velocidadX = 0
         this.velocidadY = 0
     }
+
+    pintarBeast(){
+        lienzo.drawImage(
+            this.mapaFoto,
+            this.x,
+            this.y,
+            this.ancho,
+            this.alto,
+        )
+    }
 }
 
-let zorbat = new Beast('Zorbat', './assets/zorbat.png', 5, 'Oscuridad')
+let zorbat = new Beast('Zorbat', './assets/zorbat.png', 5, 'Oscuridad', './assets/zorbat.png')
 
-let luminaut = new Beast('Luminaut', './assets/luminaut.png', 5, 'Luz')
+let luminaut = new Beast('Luminaut', './assets/luminaut.png', 5, 'Luz', './assets/luminaut.png')
 
-let draconix = new Beast('Draconix', './assets/draconix.png', 5, 'Viento')
+let draconix = new Beast('Draconix', './assets/draconix.png', 5, 'Viento', './assets/draconix.png')
 
-let bosstiff = new Beast('Bosstiff', './assets/bosstiff.png', 5, 'Tierra')
+let bosstiff = new Beast('Bosstiff', './assets/bosstiff.png', 5, 'Tierra', './assets/bosstiff.png')
 
-let zoidon = new Beast('Zoidon', './assets/zoidon.png', 5, 'Artificial')
+let zoidon = new Beast('Zoidon', './assets/zoidon.png', 5, 'Artificial', './assets/zoidon.png')
 
-let lionex = new Beast('Lionex', './assets/lionex.png', 5, 'Fuego')
+let lionex = new Beast('Lionex', './assets/lionex.png', 5, 'Fuego', './assets/lionex.png')
+
+let zorbatEnemigo = new Beast('Zorbat', './assets/zorbat.png', 5, 'Oscuridad', './assets/zorbat.png', 80, 90)
+
+let luminautEnemigo = new Beast('Luminaut', './assets/luminaut.png', 5, 'Luz', './assets/luminaut.png', 230, 30)
+
+let draconixEnemigo = new Beast('Draconix', './assets/draconix.png', 5, 'Viento', './assets/draconix.png', 130, 100)
+
+let bosstiffEnemigo = new Beast('Bosstiff', './assets/bosstiff.png', 5, 'Tierra', './assets/bosstiff.png', 50, 160)
+
+let zoidonEnemigo = new Beast('Zoidon', './assets/zoidon.png', 5, 'Artificial', './assets/zoidon.png', 250, 160)
+
+let lionexEnemigo = new Beast('Lionex', './assets/lionex.png', 5, 'Fuego', './assets/lionex.png',  220, 200)
+
+
 
 
 zorbat.ataques.push(
@@ -417,13 +441,21 @@ function pintarCanvas() {
         mapa.height
 
     )
-    lienzo.drawImage(
-        mascotaJugadorObjeto.mapaFoto,
-        mascotaJugadorObjeto.x,
-        mascotaJugadorObjeto.y,
-        mascotaJugadorObjeto.ancho,
-        mascotaJugadorObjeto.alto,
-    )
+    mascotaJugadorObjeto.pintarBeast()
+    zorbatEnemigo.pintarBeast()
+    luminautEnemigo.pintarBeast()
+    draconixEnemigo.pintarBeast()
+    bosstiffEnemigo.pintarBeast()
+    zoidonEnemigo.pintarBeast()
+    lionexEnemigo.pintarBeast()
+    if (mascotaJugadorObjeto.velocidadX !==0 || mascotaJugadorObjeto.velocidadY !==0) {
+        revisarColision(zorbatEnemigo)
+        revisarColision(luminautEnemigo)
+        revisarColision(draconixEnemigo)
+        revisarColision(bosstiffEnemigo)
+        revisarColision(zoidonEnemigo)
+        revisarColision(lionexEnemigo)
+    }
 }
 
 function moverDerecha() {
@@ -490,6 +522,30 @@ function obtenerObjetoBeast() {
         }
     }
 
+}
+
+function revisarColision(enemigo) {
+    const arribaEnemigo = enemigo.y
+    const abajoEnemigo = enemigo.y + enemigo.alto
+    const derechaEnemigo = enemigo.x + enemigo.ancho
+    const izquierdaEnemigo = enemigo.x
+
+    const arribaMascota = mascotaJugadorObjeto.y
+    const abajoMascota = mascotaJugadorObjeto.y + mascotaJugadorObjeto.alto
+    const derechaMascota = mascotaJugadorObjeto.x + mascotaJugadorObjeto.ancho
+    const izquierdaMascota = mascotaJugadorObjeto.x
+
+    if(
+        abajoMascota < arribaEnemigo ||
+        arribaMascota > abajoEnemigo  ||
+        derechaMascota < izquierdaEnemigo ||
+        izquierdaMascota > derechaEnemigo
+    ) {
+        return
+    }
+
+    detenerMovimiento()
+    alert ("Hay colision con " + enemigo.nombre)
 }
 
 window.addEventListener('load', iniciarJuego)
