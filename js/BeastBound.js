@@ -52,18 +52,30 @@ let lienzo = mapa.getContext("2d")
 let intervalo
 let mapaBackground = new Image()
 mapaBackground.src = './assets/beastMap.png'
+let alturaQueBuscamos
+let anchoDelMapa = window.innerWidth - 20
+const anchoMaximoDelMapa = 350
+
+if (anchoDelMapa > anchoMaximoDelMapa) {
+    anchoDelMapa = anchoMaximoDelMapa - 20
+}
+
+alturaQueBuscamos = anchoDelMapa * 600 / 800
+
+mapa.width = anchoDelMapa
+mapa.height = alturaQueBuscamos
 
 class Beast {
-    constructor(nombre, foto, vida, tipo,fotoMapa, x = 0, y = 0 ) {
+    constructor(nombre, foto, vida, tipo,fotoMapa) {
         this.nombre = nombre
         this.foto = foto
         this.vida = vida
         this.tipo = tipo
         this.ataques = []
-        this.x = x
-        this.y = y
         this.ancho = 60
         this.alto = 60
+        this.x = aleatorio(0, mapa.width - this.ancho)
+        this.y = aleatorio(0, mapa.height - this.alto)
         this.mapaFoto = new Image()
         this.mapaFoto.src = fotoMapa
         this.velocidadX = 0
@@ -93,22 +105,30 @@ let zoidon = new Beast('Zoidon', './assets/zoidon.png', 5, 'Artificial', './asse
 
 let lionex = new Beast('Lionex', './assets/lionex.png', 5, 'Fuego', './assets/lionex.png')
 
-let zorbatEnemigo = new Beast('Zorbat', './assets/zorbat.png', 5, 'Oscuridad', './assets/zorbat.png', 80, 90)
+let zorbatEnemigo = new Beast('Zorbat', './assets/zorbat.png', 5, 'Oscuridad', './assets/zorbat.png')
 
-let luminautEnemigo = new Beast('Luminaut', './assets/luminaut.png', 5, 'Luz', './assets/luminaut.png', 230, 30)
+let luminautEnemigo = new Beast('Luminaut', './assets/luminaut.png', 5, 'Luz', './assets/luminaut.png')
 
-let draconixEnemigo = new Beast('Draconix', './assets/draconix.png', 5, 'Viento', './assets/draconix.png', 130, 100)
+let draconixEnemigo = new Beast('Draconix', './assets/draconix.png', 5, 'Viento', './assets/draconix.png')
 
-let bosstiffEnemigo = new Beast('Bosstiff', './assets/bosstiff.png', 5, 'Tierra', './assets/bosstiff.png', 50, 160)
+let bosstiffEnemigo = new Beast('Bosstiff', './assets/bosstiff.png', 5, 'Tierra', './assets/bosstiff.png')
 
-let zoidonEnemigo = new Beast('Zoidon', './assets/zoidon.png', 5, 'Artificial', './assets/zoidon.png', 250, 160)
+let zoidonEnemigo = new Beast('Zoidon', './assets/zoidon.png', 5, 'Artificial', './assets/zoidon.png')
 
-let lionexEnemigo = new Beast('Lionex', './assets/lionex.png', 5, 'Fuego', './assets/lionex.png',  220, 200)
+let lionexEnemigo = new Beast('Lionex', './assets/lionex.png', 5, 'Fuego', './assets/lionex.png')
 
 
 
 
 zorbat.ataques.push(
+    { nombre: 'Tinieblas 🌑', id: 'boton-tinieblas' },
+    { nombre: 'Tinieblas 🌑', id: 'boton-tinieblas' },
+    { nombre: 'Tinieblas 🌑', id: 'boton-tinieblas' },
+    { nombre: 'Luz ☀️', id: 'boton-luz' },
+    { nombre: 'Viento 🍃', id: 'boton-viento' },
+)
+
+zorbatEnemigo.ataques.push(
     { nombre: 'Tinieblas 🌑', id: 'boton-tinieblas' },
     { nombre: 'Tinieblas 🌑', id: 'boton-tinieblas' },
     { nombre: 'Tinieblas 🌑', id: 'boton-tinieblas' },
@@ -124,7 +144,23 @@ luminaut.ataques.push(
     { nombre: 'Viento 🍃', id: 'boton-viento' },
 )
 
+luminautEnemigo.ataques.push(
+    { nombre: 'Luz ☀️', id: 'boton-luz' },
+    { nombre: 'Luz ☀️', id: 'boton-luz' },
+    { nombre: 'Luz ☀️', id: 'boton-luz' },
+    { nombre: 'Tinieblas 🌑', id: 'boton-tinieblas' },
+    { nombre: 'Viento 🍃', id: 'boton-viento' },
+)
+
 draconix.ataques.push(
+    { nombre: 'Viento 🍃', id: 'boton-viento' },
+    { nombre: 'Viento 🍃', id: 'boton-viento' },
+    { nombre: 'Viento 🍃', id: 'boton-viento' },
+    { nombre: 'Tinieblas 🌑', id: 'boton-tinieblas' },
+    { nombre: 'Luz ☀️', id: 'boton-luz' },
+)
+
+draconixEnemigo.ataques.push(
     { nombre: 'Viento 🍃', id: 'boton-viento' },
     { nombre: 'Viento 🍃', id: 'boton-viento' },
     { nombre: 'Viento 🍃', id: 'boton-viento' },
@@ -140,6 +176,14 @@ bosstiff.ataques.push(
     { nombre: 'Tinieblas 🌑', id: 'boton-tinieblas' }
 )
 
+bosstiffEnemigo.ataques.push(
+    { nombre: 'Tierra 🪨', id: 'boton-tierra' },
+    { nombre: 'Tierra 🪨', id: 'boton-tierra' },
+    { nombre: 'Tierra 🪨', id: 'boton-tierra' },
+    { nombre: 'Viento 🍃', id: 'boton-viento' },
+    { nombre: 'Tinieblas 🌑', id: 'boton-tinieblas' }
+)
+
 zoidon.ataques.push(
     { nombre: 'Artificial 🤖', id: 'boton-artificial' },
     { nombre: 'Artificial 🤖', id: 'boton-artificial' },
@@ -148,7 +192,23 @@ zoidon.ataques.push(
     { nombre: 'Tinieblas 🌑', id: 'boton-tinieblas' }
 )
 
+zoidonEnemigo.ataques.push(
+    { nombre: 'Artificial 🤖', id: 'boton-artificial' },
+    { nombre: 'Artificial 🤖', id: 'boton-artificial' },
+    { nombre: 'Artificial 🤖', id: 'boton-artificial' },
+    { nombre: 'Luz ☀️', id: 'boton-luz' },
+    { nombre: 'Tinieblas 🌑', id: 'boton-tinieblas' }
+)
+
 lionex.ataques.push(
+    { nombre: 'Fuego 🔥', id: 'boton-fuego' },
+    { nombre: 'Fuego 🔥', id: 'boton-fuego' },
+    { nombre: 'Fuego 🔥', id: 'boton-fuego' },
+    { nombre: 'Viento 🍃', id: 'boton-viento' },
+    { nombre: 'Luz ☀️', id: 'boton-luz' }
+)
+
+lionexEnemigo.ataques.push(
     { nombre: 'Fuego 🔥', id: 'boton-fuego' },
     { nombre: 'Fuego 🔥', id: 'boton-fuego' },
     { nombre: 'Fuego 🔥', id: 'boton-fuego' },
@@ -195,11 +255,6 @@ function seleccionarMascotaJugador() {
 
     sectionSeleccionarMascota.style.display = 'none'
 
-    //sectionSeleccionarAtaque.style.display = 'flex'
-
-
-
-
     if( inputZorbat.checked ) {
         spanMascotaJugador.innerHTML = inputZorbat.id
         mascotaJugador = inputZorbat.id
@@ -228,7 +283,6 @@ function seleccionarMascotaJugador() {
 
     iniciarMapa()
 
-    seleccionarMascotaEnemigo()
 }
 
 function extraerAtaques(mascotaJugador) {
@@ -303,17 +357,15 @@ function secuenciaAtaque(){
 
 }
 
-function seleccionarMascotaEnemigo(){
-    let mascotaAleatoria = aleatorio(0, beasts.length-1)
-
-    spanMascotaEnemigo.innerHTML = beasts[mascotaAleatoria].nombre
-    ataquesBeastEnemigo = beasts[mascotaAleatoria].ataques
-
+function seleccionarMascotaEnemigo(enemigo){
+    spanMascotaEnemigo.innerHTML = enemigo.nombre
+    ataquesBeastEnemigo = enemigo.ataques
     secuenciaAtaque()
 
 }
 
 function ataqueAleatorioEnemigo() {
+    console.log('Ataques enemigo', ataquesBeastEnemigo)
     let ataqueAleatorio = aleatorio(0, ataquesBeastEnemigo.length - 1);
     let ataqueSeleccionado = ataquesBeastEnemigo[ataqueAleatorio].nombre;
 
@@ -502,8 +554,6 @@ function sePresionoUnaTecla(event){
 
 function iniciarMapa() {
 
-    mapa.width = 320
-    mapa.height = 240
 
     mascotaJugadorObjeto = obtenerObjetoBeast(mascotaJugador)
 
@@ -545,7 +595,12 @@ function revisarColision(enemigo) {
     }
 
     detenerMovimiento()
-    alert ("Hay colision con " + enemigo.nombre)
+    clearInterval(intervalo)
+    console.log('Se detecto una colision');
+    sectionSeleccionarAtaque.style.display = 'flex'
+    sectionVerMapa.style.display = 'none'
+    seleccionarMascotaEnemigo(enemigo)
+
 }
 
 window.addEventListener('load', iniciarJuego)
