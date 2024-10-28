@@ -1,0 +1,23 @@
+{
+  "name": "beastbound",
+  "version": "1.0.0",
+  "description": "Proyecto para el curso gratis de Programación Básica de Platzi",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mauricio-nm/BeastBound.git"
+  },
+  "author": "mauricio-nm",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mauricio-nm/BeastBound/issues"
+  },
+  "homepage": "https://github.com/mauricio-nm/BeastBound#readme",
+  "dependencies": {
+    "beastbound": "file:",
+    "express": "^4.21.1"
+  }
+}
