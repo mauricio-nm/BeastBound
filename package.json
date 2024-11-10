@@ -18,6 +18,7 @@
   "homepage": "https://github.com/mauricio-nm/BeastBound#readme",
   "dependencies": {
     "beastbound": "file:",
+    "cors": "^2.8.5",
     "express": "^4.21.1"
   }
 }

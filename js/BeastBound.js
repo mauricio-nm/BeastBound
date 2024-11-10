@@ -21,6 +21,7 @@ const contenedorAtaques = document.getElementById('contenedorAtaques')
 const sectionVerMapa = document.getElementById('ver-mapa')
 const mapa = document.getElementById('mapa')
 
+let jugadorId = null
 let beasts = []
 let ataqueJugador = []
 let ataqueEnemigo = []
@@ -260,6 +261,7 @@ function unirseAlJuego(){
                 res.text()
                     .then(function(respuesta) {
                         console.log(respuesta)
+                        jugadorId = respuesta
                     } )
             }
         })
@@ -291,6 +293,8 @@ function seleccionarMascotaJugador() {
         alert('Selecciona una mascota')
     }
 
+    seleccionarBeast(mascotaJugador)
+
     extraerAtaques(mascotaJugador)
 
     sectionVerMapa.style.display = 'flex'
@@ -298,6 +302,19 @@ function seleccionarMascotaJugador() {
     iniciarMapa()
 
 }
+
+function seleccionarBeast(mascotaJugador){
+    fetch(`http://localhost:8080/beast/${jugadorId}`, {
+        method: "post",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            beast: mascotaJugador
+        })
+    })
+}
+
 
 function extraerAtaques(mascotaJugador) {
     let ataques
