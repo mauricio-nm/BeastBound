@@ -67,14 +67,13 @@ mapa.width = anchoDelMapa
 mapa.height = alturaQueBuscamos
 
 class Beast {
-    constructor(nombre, foto, vida, tipo,fotoMapa) {
+    constructor(nombre, foto, vida, fotoMapa) {
         this.nombre = nombre
         this.foto = foto
         this.vida = vida
-        this.tipo = tipo
         this.ataques = []
-        this.ancho = 60
-        this.alto = 60
+        this.ancho = 40
+        this.alto = 40
         this.x = aleatorio(0, mapa.width - this.ancho)
         this.y = aleatorio(0, mapa.height - this.alto)
         this.mapaFoto = new Image()
@@ -94,31 +93,29 @@ class Beast {
     }
 }
 
-let zorbat = new Beast('Zorbat', './assets/zorbat.png', 5, 'Oscuridad', './assets/zorbat.png')
+let zorbat = new Beast('Zorbat', './assets/zorbat.png', 5, './assets/zorbat.png')
 
-let luminaut = new Beast('Luminaut', './assets/luminaut.png', 5, 'Luz', './assets/luminaut.png')
+let luminaut = new Beast('Luminaut', './assets/luminaut.png', 5, './assets/luminaut.png')
 
-let draconix = new Beast('Draconix', './assets/draconix.png', 5, 'Viento', './assets/draconix.png')
+let draconix = new Beast('Draconix', './assets/draconix.png', 5, './assets/draconix.png')
 
-let bosstiff = new Beast('Bosstiff', './assets/bosstiff.png', 5, 'Tierra', './assets/bosstiff.png')
+let bosstiff = new Beast('Bosstiff', './assets/bosstiff.png', 5, './assets/bosstiff.png')
 
-let zoidon = new Beast('Zoidon', './assets/zoidon.png', 5, 'Artificial', './assets/zoidon.png')
+let zoidon = new Beast('Zoidon', './assets/zoidon.png', 5, './assets/zoidon.png')
 
-let lionex = new Beast('Lionex', './assets/lionex.png', 5, 'Fuego', './assets/lionex.png')
+let lionex = new Beast('Lionex', './assets/lionex.png', 5, './assets/lionex.png')
 
-let zorbatEnemigo = new Beast('Zorbat', './assets/zorbat.png', 5, 'Oscuridad', './assets/zorbat.png')
+let zorbatEnemigo = new Beast('Zorbat', './assets/zorbat.png', 5, './assets/zorbat.png')
 
-let luminautEnemigo = new Beast('Luminaut', './assets/luminaut.png', 5, 'Luz', './assets/luminaut.png')
+let luminautEnemigo = new Beast('Luminaut', './assets/luminaut.png', 5, './assets/luminaut.png')
 
-let draconixEnemigo = new Beast('Draconix', './assets/draconix.png', 5, 'Viento', './assets/draconix.png')
+let draconixEnemigo = new Beast('Draconix', './assets/draconix.png', 5, './assets/draconix.png')
 
-let bosstiffEnemigo = new Beast('Bosstiff', './assets/bosstiff.png', 5, 'Tierra', './assets/bosstiff.png')
+let bosstiffEnemigo = new Beast('Bosstiff', './assets/bosstiff.png', 5, './assets/bosstiff.png')
 
-let zoidonEnemigo = new Beast('Zoidon', './assets/zoidon.png', 5, 'Artificial', './assets/zoidon.png')
+let zoidonEnemigo = new Beast('Zoidon', './assets/zoidon.png', 5, './assets/zoidon.png')
 
-let lionexEnemigo = new Beast('Lionex', './assets/lionex.png', 5, 'Fuego', './assets/lionex.png')
-
-
+let lionexEnemigo = new Beast('Lionex', './assets/lionex.png', 5, './assets/lionex.png')
 
 
 zorbat.ataques.push(
@@ -217,11 +214,9 @@ lionexEnemigo.ataques.push(
     { nombre: 'Luz ☀️', id: 'boton-luz' }
 )
 
-
 beasts.push(zorbat,luminaut,draconix,bosstiff,lionex,zoidon)
 
-
-function iniciarJuego(){
+function iniciarJuego() {
 
     sectionSeleccionarAtaque.style.display = 'none'
     sectionVerMapa.style.display = 'none'
@@ -315,7 +310,6 @@ function seleccionarBeast(mascotaJugador){
     })
 }
 
-
 function extraerAtaques(mascotaJugador) {
     let ataques
 
@@ -405,7 +399,6 @@ function ataqueAleatorioEnemigo() {
     iniciarPelea();
 }
 
-
 function iniciarPelea(){
     if (ataqueJugador.length === 5)
         combate()
@@ -469,8 +462,6 @@ function combate() {
     }
     revisarVictorias();
 }
-
-
 
 function revisarVictorias(){
     if(victoriasJugador === victoriasEnemigo){
@@ -583,11 +574,12 @@ function sePresionoUnaTecla(event){
     }
 }
 
+
 function iniciarMapa() {
 
 
     mascotaJugadorObjeto = obtenerObjetoBeast(mascotaJugador)
-
+    console.log(mascotaJugadorObjeto, mascotaJugador);
     intervalo = setInterval(pintarCanvas, 50)
 
     window.addEventListener('keydown', sePresionoUnaTecla)
