@@ -12,8 +12,8 @@ const spanMascotaEnemigo = document.getElementById('mascota-enemigo')
 const spanVidasJugador = document.getElementById('vidas-jugador')
 const spanVidasEnemigo = document.getElementById('vidas-enemigo')
 
-// const spanVictoriasJugador = document.getElementById("victorias-jugador")
-// const spanVictoriasEnemigos = document.getElementById("victorias-enemigos")
+const spanVictoriasJugador = document.getElementById("victorias-jugador")
+const spanVictoriasEnemigos = document.getElementById("victorias-enemigos")
 
 const sectionMensajes = document.getElementById('resultado')
 const ataquesDelJugador = document.getElementById('ataques-del-jugador')
@@ -25,6 +25,7 @@ const sectionVerMapa = document.getElementById('ver-mapa')
 const mapa = document.getElementById('mapa')
 
 let jugadorId = null
+let enemigoId = null
 let beasts = []
 let beastsEnemigos = []
 let ataqueJugador = []
@@ -77,8 +78,8 @@ class Beast {
         this.foto = foto
         this.vida = vida
         this.ataques = []
-        this.ancho = 40
-        this.alto = 40
+        this.ancho = 70
+        this.alto = 70
         this.x = aleatorio(0, mapa.width - this.ancho)
         this.y = aleatorio(0, mapa.height - this.alto)
         this.mapaFoto = new Image()
@@ -334,10 +335,42 @@ function secuenciaAtaque(){
                 boton.style.background = '#3B3030'
                 boton.disabled = true
             }
-            ataqueAleatorioEnemigo()
+            if(ataqueJugador.length === 5){
+                enviarAtaques()
+            }
+
         })
     })
 
+}
+
+function enviarAtaques(){
+    fetch(`http://localhost:8080/beast/${jugadorId}/ataques`, {
+        method: "post",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            ataques: ataqueJugador
+        })
+    })
+
+    intervalo = setInterval(obtenerAtaques, 50)
+}
+
+function obtenerAtaques() {
+    fetch(`http://localhost:8080/beast/${enemigoId}/ataques`)
+        .then(function(res){
+            if(res.ok){
+                res.json()
+                    .then(function({ ataques }){
+                        if (ataques.length === 5) {
+                            ataqueEnemigo = ataques
+                            combate()
+                        }
+                    })
+            }
+        })
 }
 
 function seleccionarMascotaEnemigo(enemigo){
@@ -368,6 +401,9 @@ function indexAmbosOponentes(jugador, enemigo){
 }
 
 function combate() {
+
+    clearInterval(intervalo)
+
     for (let index = 0; index < ataqueJugador.length; index++) {
         // Comparar ataques del jugador y del enemigo
         if (ataqueJugador[index] === ataqueEnemigo[index]) {
@@ -507,17 +543,17 @@ function enviarPosicion(x, y){
                             if (enemigo.beast != undefined) {
                                 const beastNombre = enemigo.beast.nombre || ""
                                 if (beastNombre === "Zorbat"){
-                                    beastEnemigo = new Beast('Zorbat', './assets/zorbat.png', 5, './assets/zorbat.png')
+                                    beastEnemigo = new Beast('Zorbat', './assets/zorbat.png', 5, './assets/zorbat.png', enemigo.id)
                                 } else if (beastNombre === "Luminaut") {
-                                    beastEnemigo = new Beast('Luminaut', './assets/luminaut.png', 5, './assets/luminaut.png')
+                                    beastEnemigo = new Beast('Luminaut', './assets/luminaut.png', 5, './assets/luminaut.png', enemigo.id)
                                 } else if (beastNombre === "Draconix") {
-                                    beastEnemigo = new Beast('Draconix', './assets/draconix.png', 5, './assets/draconix.png')
+                                    beastEnemigo = new Beast('Draconix', './assets/draconix.png', 5, './assets/draconix.png', enemigo.id)
                                 } else if (beastNombre === "Bosstiff"){
-                                    beastEnemigo = new Beast('Bosstiff', './assets/bosstiff.png', 5, './assets/bosstiff.png')
+                                    beastEnemigo = new Beast('Bosstiff', './assets/bosstiff.png', 5, './assets/bosstiff.png', enemigo.id)
                                 } else if (beastNombre === "Zoidon") {
-                                    beastEnemigo = new Beast('Zoidon', './assets/zoidon.png', 5, './assets/zoidon.png')
+                                    beastEnemigo = new Beast('Zoidon', './assets/zoidon.png', 5, './assets/zoidon.png', enemigo.id)
                                 } else if (beastNombre === "Lionex") {
-                                    beastEnemigo = new Beast('Lionex', './assets/lionex.png', 5, './assets/lionex.png')
+                                    beastEnemigo = new Beast('Lionex', './assets/lionex.png', 5, './assets/lionex.png', enemigo.id)
                                 }
     
                                 beastEnemigo.x = enemigo.x
@@ -619,6 +655,7 @@ function revisarColision(enemigo) {
     detenerMovimiento()
     clearInterval(intervalo)
     console.log('Se detecto una colision');
+    enemigoId =  enemigo.id
     sectionSeleccionarAtaque.style.display = 'flex'
     sectionVerMapa.style.display = 'none'
     seleccionarMascotaEnemigo(enemigo)
