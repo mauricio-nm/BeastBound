@@ -516,6 +516,9 @@ function pintarCanvas() {
 
     )
     mascotaJugadorObjeto.pintarBeast()
+
+    enviarPosicion(mascotaJugadorObjeto.x, mascotaJugadorObjeto.y)
+
     zorbatEnemigo.pintarBeast()
     luminautEnemigo.pintarBeast()
     draconixEnemigo.pintarBeast()
@@ -530,6 +533,19 @@ function pintarCanvas() {
         revisarColision(zoidonEnemigo)
         revisarColision(lionexEnemigo)
     }
+}
+
+function enviarPosicion(x, y){
+    fetch(`http://localhost:8080/beast/${jugadorId}/posicion`, {
+        method: "post",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            x: x,
+            y: y
+        })
+    })
 }
 
 function moverDerecha() {
