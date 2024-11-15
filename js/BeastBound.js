@@ -9,8 +9,11 @@ const spanMascotaJugador = document.getElementById('mascota-jugador')
 
 const spanMascotaEnemigo = document.getElementById('mascota-enemigo')
 
-const spanVictoriasJugador = document.getElementById("victorias-jugador")
-const spanVictoriasEnemigos = document.getElementById("victorias-enemigos")
+const spanVidasJugador = document.getElementById('vidas-jugador')
+const spanVidasEnemigo = document.getElementById('vidas-enemigo')
+
+// const spanVictoriasJugador = document.getElementById("victorias-jugador")
+// const spanVictoriasEnemigos = document.getElementById("victorias-enemigos")
 
 const sectionMensajes = document.getElementById('resultado')
 const ataquesDelJugador = document.getElementById('ataques-del-jugador')
@@ -23,6 +26,7 @@ const mapa = document.getElementById('mapa')
 
 let jugadorId = null
 let beasts = []
+let beastsEnemigos = []
 let ataqueJugador = []
 let ataqueEnemigo = []
 let opcionDeBeasts
@@ -67,7 +71,8 @@ mapa.width = anchoDelMapa
 mapa.height = alturaQueBuscamos
 
 class Beast {
-    constructor(nombre, foto, vida, fotoMapa) {
+    constructor(nombre, foto, vida, fotoMapa, id = null) {
+        this.id = id
         this.nombre = nombre
         this.foto = foto
         this.vida = vida
@@ -105,114 +110,67 @@ let zoidon = new Beast('Zoidon', './assets/zoidon.png', 5, './assets/zoidon.png'
 
 let lionex = new Beast('Lionex', './assets/lionex.png', 5, './assets/lionex.png')
 
-let zorbatEnemigo = new Beast('Zorbat', './assets/zorbat.png', 5, './assets/zorbat.png')
 
-let luminautEnemigo = new Beast('Luminaut', './assets/luminaut.png', 5, './assets/luminaut.png')
-
-let draconixEnemigo = new Beast('Draconix', './assets/draconix.png', 5, './assets/draconix.png')
-
-let bosstiffEnemigo = new Beast('Bosstiff', './assets/bosstiff.png', 5, './assets/bosstiff.png')
-
-let zoidonEnemigo = new Beast('Zoidon', './assets/zoidon.png', 5, './assets/zoidon.png')
-
-let lionexEnemigo = new Beast('Lionex', './assets/lionex.png', 5, './assets/lionex.png')
-
-
-zorbat.ataques.push(
+const ZORBAT_ATAQUES = [
     { nombre: 'Tinieblas 🌑', id: 'boton-tinieblas' },
     { nombre: 'Tinieblas 🌑', id: 'boton-tinieblas' },
     { nombre: 'Tinieblas 🌑', id: 'boton-tinieblas' },
     { nombre: 'Luz ☀️', id: 'boton-luz' },
     { nombre: 'Viento 🍃', id: 'boton-viento' },
-)
+]
 
-zorbatEnemigo.ataques.push(
-    { nombre: 'Tinieblas 🌑', id: 'boton-tinieblas' },
-    { nombre: 'Tinieblas 🌑', id: 'boton-tinieblas' },
-    { nombre: 'Tinieblas 🌑', id: 'boton-tinieblas' },
-    { nombre: 'Luz ☀️', id: 'boton-luz' },
-    { nombre: 'Viento 🍃', id: 'boton-viento' },
-)
+zorbat.ataques.push(...ZORBAT_ATAQUES)
 
-luminaut.ataques.push(
+const LUMINAUT_ATAQUES = [
     { nombre: 'Luz ☀️', id: 'boton-luz' },
     { nombre: 'Luz ☀️', id: 'boton-luz' },
     { nombre: 'Luz ☀️', id: 'boton-luz' },
     { nombre: 'Tinieblas 🌑', id: 'boton-tinieblas' },
     { nombre: 'Viento 🍃', id: 'boton-viento' },
-)
+];
 
-luminautEnemigo.ataques.push(
-    { nombre: 'Luz ☀️', id: 'boton-luz' },
-    { nombre: 'Luz ☀️', id: 'boton-luz' },
-    { nombre: 'Luz ☀️', id: 'boton-luz' },
-    { nombre: 'Tinieblas 🌑', id: 'boton-tinieblas' },
-    { nombre: 'Viento 🍃', id: 'boton-viento' },
-)
+luminaut.ataques.push(...LUMINAUT_ATAQUES);
 
-draconix.ataques.push(
+const DRACONIX_ATAQUES = [
     { nombre: 'Viento 🍃', id: 'boton-viento' },
     { nombre: 'Viento 🍃', id: 'boton-viento' },
     { nombre: 'Viento 🍃', id: 'boton-viento' },
     { nombre: 'Tinieblas 🌑', id: 'boton-tinieblas' },
     { nombre: 'Luz ☀️', id: 'boton-luz' },
-)
+];
 
-draconixEnemigo.ataques.push(
-    { nombre: 'Viento 🍃', id: 'boton-viento' },
-    { nombre: 'Viento 🍃', id: 'boton-viento' },
-    { nombre: 'Viento 🍃', id: 'boton-viento' },
-    { nombre: 'Tinieblas 🌑', id: 'boton-tinieblas' },
-    { nombre: 'Luz ☀️', id: 'boton-luz' },
-)
+draconix.ataques.push(...DRACONIX_ATAQUES);
 
-bosstiff.ataques.push(
+const BOSSTIFF_ATAQUES = [
     { nombre: 'Tierra 🪨', id: 'boton-tierra' },
     { nombre: 'Tierra 🪨', id: 'boton-tierra' },
     { nombre: 'Tierra 🪨', id: 'boton-tierra' },
     { nombre: 'Viento 🍃', id: 'boton-viento' },
-    { nombre: 'Tinieblas 🌑', id: 'boton-tinieblas' }
-)
+    { nombre: 'Tinieblas 🌑', id: 'boton-tinieblas' },
+];
 
-bosstiffEnemigo.ataques.push(
-    { nombre: 'Tierra 🪨', id: 'boton-tierra' },
-    { nombre: 'Tierra 🪨', id: 'boton-tierra' },
-    { nombre: 'Tierra 🪨', id: 'boton-tierra' },
-    { nombre: 'Viento 🍃', id: 'boton-viento' },
-    { nombre: 'Tinieblas 🌑', id: 'boton-tinieblas' }
-)
+bosstiff.ataques.push(...BOSSTIFF_ATAQUES);
 
-zoidon.ataques.push(
+const ZOIDON_ATAQUES = [
     { nombre: 'Artificial 🤖', id: 'boton-artificial' },
     { nombre: 'Artificial 🤖', id: 'boton-artificial' },
     { nombre: 'Artificial 🤖', id: 'boton-artificial' },
     { nombre: 'Luz ☀️', id: 'boton-luz' },
-    { nombre: 'Tinieblas 🌑', id: 'boton-tinieblas' }
-)
+    { nombre: 'Tinieblas 🌑', id: 'boton-tinieblas' },
+];
 
-zoidonEnemigo.ataques.push(
-    { nombre: 'Artificial 🤖', id: 'boton-artificial' },
-    { nombre: 'Artificial 🤖', id: 'boton-artificial' },
-    { nombre: 'Artificial 🤖', id: 'boton-artificial' },
+zoidon.ataques.push(...ZOIDON_ATAQUES);
+
+const LIONEX_ATAQUES = [
+    { nombre: 'Fuego 🔥', id: 'boton-fuego' },
+    { nombre: 'Fuego 🔥', id: 'boton-fuego' },
+    { nombre: 'Fuego 🔥', id: 'boton-fuego' },
+    { nombre: 'Viento 🍃', id: 'boton-viento' },
     { nombre: 'Luz ☀️', id: 'boton-luz' },
-    { nombre: 'Tinieblas 🌑', id: 'boton-tinieblas' }
-)
+];
 
-lionex.ataques.push(
-    { nombre: 'Fuego 🔥', id: 'boton-fuego' },
-    { nombre: 'Fuego 🔥', id: 'boton-fuego' },
-    { nombre: 'Fuego 🔥', id: 'boton-fuego' },
-    { nombre: 'Viento 🍃', id: 'boton-viento' },
-    { nombre: 'Luz ☀️', id: 'boton-luz' }
-)
+lionex.ataques.push(...LIONEX_ATAQUES);
 
-lionexEnemigo.ataques.push(
-    { nombre: 'Fuego 🔥', id: 'boton-fuego' },
-    { nombre: 'Fuego 🔥', id: 'boton-fuego' },
-    { nombre: 'Fuego 🔥', id: 'boton-fuego' },
-    { nombre: 'Viento 🍃', id: 'boton-viento' },
-    { nombre: 'Luz ☀️', id: 'boton-luz' }
-)
 
 beasts.push(zorbat,luminaut,draconix,bosstiff,lionex,zoidon)
 
@@ -391,7 +349,7 @@ function seleccionarMascotaEnemigo(enemigo){
 
 function ataqueAleatorioEnemigo() {
     console.log('Ataques enemigo', ataquesBeastEnemigo)
-    let ataqueAleatorio = aleatorio(0, ataquesBeastEnemigo.length - 1);
+    let ataqueAleatorio = aleatorio(0, ataquesBeastEnemigo.length -1);
     let ataqueSeleccionado = ataquesBeastEnemigo[ataqueAleatorio].nombre;
 
     ataqueEnemigo.push(ataqueSeleccionado);
@@ -519,12 +477,10 @@ function pintarCanvas() {
 
     enviarPosicion(mascotaJugadorObjeto.x, mascotaJugadorObjeto.y)
 
-    zorbatEnemigo.pintarBeast()
-    luminautEnemigo.pintarBeast()
-    draconixEnemigo.pintarBeast()
-    bosstiffEnemigo.pintarBeast()
-    zoidonEnemigo.pintarBeast()
-    lionexEnemigo.pintarBeast()
+    beastsEnemigos.forEach(function (beast) {
+        beast.pintarBeast()
+    })
+    
     if (mascotaJugadorObjeto.velocidadX !==0 || mascotaJugadorObjeto.velocidadY !==0) {
         revisarColision(zorbatEnemigo)
         revisarColision(luminautEnemigo)
@@ -542,10 +498,40 @@ function enviarPosicion(x, y){
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            x: x,
-            y: y
+            x,
+            y
         })
     })
+        .then(function (res) {
+            if(res.ok) {
+                res.json()
+                    .then(function ({ enemigos }) {
+                        console.log(enemigos)
+                        beastsEnemigos = enemigos.map(function (enemigo) {
+                            let beastEnemigo = null
+                            const beastNombre = enemigo.beast.nombre || ""
+                            if (beastNombre === "Zorbat"){
+                                beastEnemigo = new Beast('Zorbat', './assets/zorbat.png', 5, './assets/zorbat.png')
+                            } else if (beastNombre === "Luminaut") {
+                                beastEnemigo = new Beast('Luminaut', './assets/luminaut.png', 5, './assets/luminaut.png')
+                            } else if (beastNombre === "Draconix") {
+                                beastEnemigo = new Beast('Draconix', './assets/draconix.png', 5, './assets/draconix.png')
+                            } else if (beastNombre === "Bosstiff"){
+                                beastEnemigo = new Beast('Bosstiff', './assets/bosstiff.png', 5, './assets/bosstiff.png')
+                            } else if (beastNombre === "Zoidon") {
+                                beastEnemigo = new Beast('Zoidon', './assets/zoidon.png', 5, './assets/zoidon.png')
+                            } else if (beastNombre === "Lionex") {
+                                beastEnemigo = new Beast('Lionex', './assets/lionex.png', 5, './assets/lionex.png')
+                            }
+
+                            beastEnemigo.x = enemigo.x
+                            beastEnemigo.y = enemigo.y
+
+                            return beastEnemigo
+                        })
+                    })
+            }
+        })
 }
 
 function moverDerecha() {
