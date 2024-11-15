@@ -478,17 +478,12 @@ function pintarCanvas() {
     enviarPosicion(mascotaJugadorObjeto.x, mascotaJugadorObjeto.y)
 
     beastsEnemigos.forEach(function (beast) {
-        beast.pintarBeast()
+        if (beast != undefined) {
+            beast.pintarBeast()
+            revisarColision(beast)
+        }
     })
-    
-    if (mascotaJugadorObjeto.velocidadX !==0 || mascotaJugadorObjeto.velocidadY !==0) {
-        revisarColision(zorbatEnemigo)
-        revisarColision(luminautEnemigo)
-        revisarColision(draconixEnemigo)
-        revisarColision(bosstiffEnemigo)
-        revisarColision(zoidonEnemigo)
-        revisarColision(lionexEnemigo)
-    }
+
 }
 
 function enviarPosicion(x, y){
@@ -509,24 +504,26 @@ function enviarPosicion(x, y){
                         console.log(enemigos)
                         beastsEnemigos = enemigos.map(function (enemigo) {
                             let beastEnemigo = null
-                            const beastNombre = enemigo.beast.nombre || ""
-                            if (beastNombre === "Zorbat"){
-                                beastEnemigo = new Beast('Zorbat', './assets/zorbat.png', 5, './assets/zorbat.png')
-                            } else if (beastNombre === "Luminaut") {
-                                beastEnemigo = new Beast('Luminaut', './assets/luminaut.png', 5, './assets/luminaut.png')
-                            } else if (beastNombre === "Draconix") {
-                                beastEnemigo = new Beast('Draconix', './assets/draconix.png', 5, './assets/draconix.png')
-                            } else if (beastNombre === "Bosstiff"){
-                                beastEnemigo = new Beast('Bosstiff', './assets/bosstiff.png', 5, './assets/bosstiff.png')
-                            } else if (beastNombre === "Zoidon") {
-                                beastEnemigo = new Beast('Zoidon', './assets/zoidon.png', 5, './assets/zoidon.png')
-                            } else if (beastNombre === "Lionex") {
-                                beastEnemigo = new Beast('Lionex', './assets/lionex.png', 5, './assets/lionex.png')
+                            if (enemigo.beast != undefined) {
+                                const beastNombre = enemigo.beast.nombre || ""
+                                if (beastNombre === "Zorbat"){
+                                    beastEnemigo = new Beast('Zorbat', './assets/zorbat.png', 5, './assets/zorbat.png')
+                                } else if (beastNombre === "Luminaut") {
+                                    beastEnemigo = new Beast('Luminaut', './assets/luminaut.png', 5, './assets/luminaut.png')
+                                } else if (beastNombre === "Draconix") {
+                                    beastEnemigo = new Beast('Draconix', './assets/draconix.png', 5, './assets/draconix.png')
+                                } else if (beastNombre === "Bosstiff"){
+                                    beastEnemigo = new Beast('Bosstiff', './assets/bosstiff.png', 5, './assets/bosstiff.png')
+                                } else if (beastNombre === "Zoidon") {
+                                    beastEnemigo = new Beast('Zoidon', './assets/zoidon.png', 5, './assets/zoidon.png')
+                                } else if (beastNombre === "Lionex") {
+                                    beastEnemigo = new Beast('Lionex', './assets/lionex.png', 5, './assets/lionex.png')
+                                }
+    
+                                beastEnemigo.x = enemigo.x
+                                beastEnemigo.y = enemigo.y
+    
                             }
-
-                            beastEnemigo.x = enemigo.x
-                            beastEnemigo.y = enemigo.y
-
                             return beastEnemigo
                         })
                     })
