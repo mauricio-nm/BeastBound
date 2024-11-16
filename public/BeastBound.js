@@ -223,7 +223,6 @@ function unirseAlJuego(){
 
 function seleccionarMascotaJugador() {
 
-    sectionSeleccionarMascota.style.display = 'none'
 
     if( inputZorbat.checked ) {
         spanMascotaJugador.innerHTML = inputZorbat.id
@@ -245,7 +244,10 @@ function seleccionarMascotaJugador() {
         mascotaJugador = inputZoidon.id
     } else{
         alert('Selecciona una mascota')
+        return
     }
+
+    sectionSeleccionarMascota.style.display = 'none'
 
     seleccionarBeast(mascotaJugador)
 
